@@ -6,7 +6,7 @@ import com.pojos.Trade;
 
 public interface WashMapDAO {
 	
-	int addWashTrades(List<Integer> tradeID);
-	List<Trade> findTradeIDsByWashID(int washID);
+	int addWashTradeIDs(int washID,List<Integer> tradeIDs); //is invoked when addWash of WashDAO is called
+	List<Integer> findTradeIDsByWashID(int washID);// is invoked when findAllTradesByWashID ic called from WashDAO
 
 }
