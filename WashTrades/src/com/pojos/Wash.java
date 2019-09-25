@@ -1,4 +1,5 @@
 package com.pojos;
+import java.util.HashMap;
 import java.util.List;
 
 public class Wash {
@@ -8,21 +9,21 @@ public class Wash {
 	private float volumeMargin;
 	private int brokerID;
 	private int traderID;
-	private List<Integer> tradeIDList; //List of all TradeID's of trades associated with this wash trade
-	
-	public Wash() {
-	
-	}
+	private HashMap<Integer, List<Integer>> washMap; //List of all TradeID's of trades associated with this washid
 	
 	public Wash(int washID, float priceMargin, float volumeMargin, int brokerID, int traderID,
-			List<Integer> tradeIDList) {
+			HashMap<Integer, List<Integer>> washMap) {
 		super();
 		this.washID = washID;
 		this.priceMargin = priceMargin;
 		this.volumeMargin = volumeMargin;
 		this.brokerID = brokerID;
 		this.traderID = traderID;
-		this.tradeIDList = tradeIDList;
+		this.washMap = washMap;
+	}
+
+	public Wash() {
+	
 	}
 
 	public int getWashID() {
@@ -65,12 +66,12 @@ public class Wash {
 		this.traderID = traderID;
 	}
 
-	public List<Integer> getTradeIDList() {
-		return tradeIDList;
+	public HashMap<Integer, List<Integer>> getWashMap() {
+		return washMap;
 	}
 
-	public void setTradeIDList(List<Integer> tradeIDList) {
-		this.tradeIDList = tradeIDList;
+	public void setWashMap(HashMap<Integer, List<Integer>> washMap) {
+		this.washMap = washMap;
 	}
 	
 }
