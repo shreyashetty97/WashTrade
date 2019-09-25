@@ -1,90 +1,121 @@
 package com.pojos;
 
+import java.sql.Date;
+
 public class Trade {
 
-	private int tradeID;
-	private String tradeType; /// buy OR SELL
-	private String timestamp;
-	private int volume;
-	private Trader trader;
-	private Broker broker;
-	private Security security;
+	protected int tradeID;
+	protected String tradeType; /// buy OR SELL
+	protected Date timeStamp;
+	protected int volume;
+	protected int traderID;
+	protected int brokerID;
+	protected String securityType;
+	protected float price;
+	protected int symbolID;
+
 
 	public Trade() {
 		
 	}
-	
-	public Trade(int tradeID, String tradeType, String timestamp, int volume, Trader trader, Broker broker,
-			Security security) {
+    
+	public Trade(int tradeID, String tradeType, Date timeStamp, int volume, int traderID, int brokerID,
+			String securityType, float price, int symbolID) {
 		super();
 		this.tradeID = tradeID;
 		this.tradeType = tradeType;
-		this.timestamp = timestamp;
+		this.timeStamp = timeStamp;
 		this.volume = volume;
-		this.trader = trader;
-		this.broker = broker;
-		this.security = security;
+		this.traderID = traderID;
+		this.brokerID = brokerID;
+		this.securityType = securityType;
+		this.price = price;
+		this.symbolID = symbolID;
 	}
-
-	public Security getSecurity() {
-		return security;
-	}
-
-	public void setSecurity(Security security) {
-		this.security = security;
-	}
-
-
 
 	public int getTradeID() {
 		return tradeID;
 	}
 
-	public String getTradeType() {
+
+    public String getTradeType() {
 		return tradeType;
 	}
+
 
 	public void setTradeType(String tradeType) {
 		this.tradeType = tradeType;
 	}
 
-	public String getTimestamp() {
-		return timestamp;
+
+	public Date getTimeStamp() {
+		return timeStamp;
 	}
 
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
+
+	public void setTimeStamp(Date timeStamp) {
+		this.timeStamp = timeStamp;
 	}
+
 
 	public int getVolume() {
 		return volume;
 	}
 
+
 	public void setVolume(int volume) {
 		this.volume = volume;
 	}
 
-	public Trader getTrader() {
-		return trader;
+
+	public int getTraderID() {
+		return traderID;
 	}
 
-	public void setTrader(Trader trader) {
-		this.trader = trader;
+
+	public void setTraderID(int traderID) {
+		this.traderID = traderID;
 	}
 
-	public Broker getBroker() {
-		return broker;
+
+	public int getBrokerID() {
+		return brokerID;
 	}
 
-	public void setBroker(Broker broker) {
-		this.broker = broker;
+
+	public void setBrokerID(int brokerID) {
+		this.brokerID = brokerID;
 	}
-//
-//	public Security getSecurity() {
-//		return security;
-//	}
-//
-//	public void setSecurity(Security security) {
-//		this.security = security;
-//	}
+
+
+	public String getSecurityType() {
+		return securityType;
+	}
+
+
+	public void setSecurityType(String securityType) {
+		this.securityType = securityType;
+	}
+
+
+	public float getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+
+	public int getSymbolID() {
+		return symbolID;
+	}
+
+
+	public void setSymbolID(int symbolID) {
+		this.symbolID = symbolID;
+	}
+
+
 }
