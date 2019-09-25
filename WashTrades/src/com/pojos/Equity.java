@@ -8,11 +8,18 @@ public class Equity extends Trade {
 		 super();
 	 }
 	  
-	  public Equity(int tradeID, String tradeType, Date timeStamp, int volume, int traderID, int brokerID,
-				String securityType, float price, int symbolID) {
-		  super( tradeID,  tradeType,  timeStamp,  volume,  traderID,  brokerID,
-			 securityType,  price,  symbolID);
+	  public Equity(int tradeID, String tradeType, Date timeStamp, int volume, Trader trader, Broker broker,
+				String securityType, float price, Symbol symbol) {
+		  super( tradeID,  tradeType,  timeStamp,  volume,  trader,  broker,
+			 securityType,  price,  symbol);
 	  }
+
+	@Override
+	public String toString() {
+		return "Equity [tradeID=" + tradeID + ", tradeType=" + tradeType + ", timeStamp=" + timeStamp + ", volume="
+				+ volume + ", trader=" + trader + ", broker=" + broker + ", securityType=" + securityType + ", price="
+				+ price + ", symbol=" + symbol + "]";
+	}
 	  
 	  
 	 

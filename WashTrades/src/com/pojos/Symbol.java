@@ -24,5 +24,10 @@ public class Symbol {
 	public int getSymbolId() {
 		return symbolId;
 	}
+
+	@Override
+	public String toString() {
+		return "Symbol [symbolId=" + symbolId + ", name=" + name + "]";
+	}
 	
 }

@@ -12,11 +12,11 @@ public class PutOption extends Trade {
 		super();
 	}
 
-	public PutOption(int tradeID, String tradeType, Date timeStamp, int volume, int traderID, int brokerID,
-			String securityType, float price, int symbolID, Date expiryDate,float expiryPrice, float strike
+	public PutOption(int tradeID, String tradeType, Date timeStamp, int volume, Trader trader, Broker broker,
+			String securityType, float price, Symbol symbol, Date expiryDate,float expiryPrice, float strike
 			) {
-		super(tradeID,  tradeType,  timeStamp,  volume,  traderID,  brokerID,
-				 securityType,  price,  symbolID);
+		super(tradeID,  tradeType,  timeStamp,  volume,  trader,  broker,
+				 securityType,  price,  symbol);
 		this.expiryDate = expiryDate;
 		this.expiryPrice = expiryPrice;
 		this.strike = strike;
@@ -44,6 +44,14 @@ public class PutOption extends Trade {
 
 	public void setStrike(float strike) {
 		this.strike = strike;
+	}
+
+	@Override
+	public String toString() {
+		return "PutOption [expiryDate=" + expiryDate + ", expiryPrice=" + expiryPrice + ", strike=" + strike
+				+ ", tradeID=" + tradeID + ", tradeType=" + tradeType + ", timeStamp=" + timeStamp + ", volume="
+				+ volume + ", trader=" + trader + ", broker=" + broker + ", securityType=" + securityType + ", price="
+				+ price + ", symbol=" + symbol + "]";
 	}
 
 	

@@ -228,7 +228,7 @@ PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
 CREATE TABLE hr.wash (
     washid         NUMBER(6) NOT NULL,
     pricemargin    NUMBER(6, 2) NOT NULL,
-    volumemargin   NUMBER(6) NOT NULL,
+    volumemargin   NUMBER(6, 2) NOT NULL,
     brokerid       NUMBER(6) NOT NULL,
     traderid       NUMBER(6) NOT NULL
 )
