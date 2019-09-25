@@ -9,7 +9,7 @@ public class Broker {
 
 	}
 
-	public Broker(String name) {
+	public Broker(int brokerID,String name) {
 		this.name = name;
 	}
 	
