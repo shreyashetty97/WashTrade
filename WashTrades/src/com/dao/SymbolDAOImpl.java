@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import com.pojos.Broker;
 import com.pojos.Symbol;
+import com.pojos.Trader;
 
 public class SymbolDAOImpl implements SymbolDAO {
 	
@@ -52,7 +53,7 @@ public class SymbolDAOImpl implements SymbolDAO {
 	}
 
 	@Override
-	public Symbol getSymbolID(int symbolID) {
+	public Symbol findBySymbolID(int symbolID) {
 		// TODO Auto-generated method stub
 		Symbol symbol=null;
 		try(Connection con=openConnection()){
@@ -78,7 +79,7 @@ public class SymbolDAOImpl implements SymbolDAO {
 	@Override
 	public Symbol deleteBySymbolID(int symbolID) {
 		// TODO Auto-generated method stub
-        Symbol symbol=getSymbolID(symbolID);
+        Symbol symbol=findBySymbolID(symbolID);
 		
 		if (symbol!=null){
 		try(Connection con=openConnection()){
@@ -93,6 +94,33 @@ public class SymbolDAOImpl implements SymbolDAO {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}}
+		return symbol;
+	}
+
+
+
+
+
+	@Override
+	public Symbol findBySymbolName(String name) {
+		// TODO Auto-generated method stub
+		Symbol symbol=null;
+		try(Connection con=openConnection()){
+			
+			String SELECT="select symbolID from trader where name=? ";
+			PreparedStatement st=con.prepareStatement(SELECT);
+			st.setString(1,name);
+		    ResultSet rs=st.executeQuery();
+		    rs.next();
+		    symbol=new Symbol(rs.getInt("symbolID"), name);
+		    return symbol;
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
 		return symbol;
 	}
 

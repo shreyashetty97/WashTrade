@@ -6,7 +6,8 @@ import com.pojos.Trader;
 public interface TraderDAO {
 	
 	 int addTrader(Trader trader);
-     Trader getTraderID(int traderID);
+     Trader findByTraderID(int traderID);
+     Trader findByTraderName(String name);
      Trader deleteByIsbn(int traderID);
 
 }

@@ -54,7 +54,7 @@ public class BrokerDAOImpl implements BrokerDAO {
 	}
 
 	@Override
-	public Broker getBrokerID(int brokerID) {
+	public Broker findBrokerByID(int brokerID) {
 		// TODO Auto-generated method stub
 		Broker broker=null;
 		try(Connection con=openConnection()){
@@ -80,7 +80,7 @@ public class BrokerDAOImpl implements BrokerDAO {
 	@Override
 	public Broker deleteByBrokerID(int brokerID) {
 		// TODO Auto-generated method stub
-        Broker broker=getBrokerID(brokerID);
+        Broker broker=findBrokerByID(brokerID);
 		
 		if (broker!=null){
 		try(Connection con=openConnection()){
@@ -96,6 +96,30 @@ public class BrokerDAOImpl implements BrokerDAO {
 		e.printStackTrace();
 	}}
 		return broker;
+	}
+
+	@Override
+	public Broker findBrokerByName(String name) {
+		// TODO Auto-generated method stub
+		Broker broker=null;
+		try(Connection con=openConnection()){
+			
+			String SELECT="select brokerID from trader where name=? ";
+			PreparedStatement st=con.prepareStatement(SELECT);
+			st.setString(1,name);
+		    ResultSet rs=st.executeQuery();
+		    rs.next();
+		    broker=new Broker(rs.getInt("brokerID"), name);
+		    return broker;
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+		return broker;
+		
 	}
 
 }
