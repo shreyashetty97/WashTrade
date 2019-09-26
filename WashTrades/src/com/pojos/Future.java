@@ -2,29 +2,27 @@ package com.pojos;
 
 import java.sql.Date;
 
+import com.date.TradeDate;
+
 public class Future extends Trade {
 	
-	private Date expiryDate;
+	protected final static Date expiryDate= (new TradeDate()).expDate();
 	
 	public Future() {
 		super();
 	}
 
 	public Future(int tradeID, String tradeType, Date timeStamp, int volume,Trader trader,Broker broker,
-			String securityType, float price,Symbol symbol ,Date expiryDate){
+			String securityType, float price,Symbol symbol){
 		
 		super( tradeID,  tradeType,  timeStamp,  volume,  trader,  broker,
 				 securityType,  price,  symbol);
-		this.expiryDate = expiryDate;
 	}
 		
 	public Date getExpiryDate() {
 		return expiryDate;
 	}
 	
-	public void setExpiryDate(Date expiryDate) {
-		this.expiryDate = expiryDate;
-	}
 
 	@Override
 	public String toString() {
@@ -33,5 +31,10 @@ public class Future extends Trade {
 				+ securityType + ", price=" + price + ", symbol=" + symbol + "]";
 	}
 	
+	public static void main(String args[]) {
+		Trade tr=new Trade();
+		Future fr= (Future) tr;
+	
+	}
 	
 }

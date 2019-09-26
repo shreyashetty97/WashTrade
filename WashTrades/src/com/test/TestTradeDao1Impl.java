@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.dao.TradeDao1Impl;
+import com.dao.TradeDAOImpl;
 import com.dao.WashMapDAO;
 import com.dao.WashMapDAOImpl;
 import com.pojos.Trade;
@@ -16,7 +16,7 @@ import com.pojos.Trade;
 class TestTradeDao1Impl {
 	@Test
 	void testFindByTradeID() {
-		TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+		TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		Trade t=tradeDaoImpl.findByTradeID(100);
 		System.out.println(t);
 		assertEquals(expected, actual);
@@ -24,7 +24,7 @@ class TestTradeDao1Impl {
 	
 	@Test
 	void testFindByTradeIDnegative() {
-		TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+		TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		Trade t=tradeDaoImpl.findByTradeID(100);
 		System.out.println(t);
 		assertEquals(expected, actual);
@@ -32,7 +32,7 @@ class TestTradeDao1Impl {
 	
 	@Test
 	void testFindAllTradesByTraderID() {
-		TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+		TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
         List<Trade> r = tradeDaoImpl.findAllTradesByTraderID(traderID);
         System.out.println(r);
         assertEquals(3, r.size());
@@ -40,7 +40,7 @@ class TestTradeDao1Impl {
 	
 	@Test
 	void testFindAllTradesByTraderIDnegative() {
-		TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+		TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
         List<Trade> r = tradeDaoImpl.findAllTradesByTraderID(traderID);
         System.out.println(r);
         assertEquals(3, r.size());
@@ -48,7 +48,7 @@ class TestTradeDao1Impl {
 	
 	@Test
 	void testAddTrade() {
-		TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+		TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		Trade trade=new Trade();
 		int r= tradeDaoImpl.addTrade(trade);
 		assertEquals(r,1);
@@ -56,7 +56,7 @@ class TestTradeDao1Impl {
 	
 	@Test
 	void testAddTradeNegative() {
-		TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+		TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		Trade trade=new Trade();
 		int r= tradeDaoImpl.addTrade(trade);
 		assertEquals(r,0);
@@ -64,7 +64,7 @@ class TestTradeDao1Impl {
 	
 	@Test
 	void testDeleteTrade() {
-		TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+		TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		
 		List<Trade> t= new ArrayList<Trade>();
 		t= tradeDaoImpl.findALLTrades();
@@ -78,7 +78,7 @@ class TestTradeDao1Impl {
 	@Test
 	void testUpdateByTraderId() {
 		 
-		TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+		TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		Trade trade=new Trade();
 		int r= tradeDaoImpl.updateByTraderID(trade);
 		assertEquals(r,1);
@@ -88,7 +88,7 @@ class TestTradeDao1Impl {
 	@Test
 	void testUpdateByTraderIdnegative() {
 		 
-		TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+		TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		Trade trade=new Trade();
 		int r= tradeDaoImpl.updateByTraderID(trade);
 		assertEquals(r,0);
@@ -96,7 +96,7 @@ class TestTradeDao1Impl {
 	
 	@Test
 	void testFindAll() {
-        TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+        TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		
 		List<Trade> t= new ArrayList<Trade>();
 		t= tradeDaoImpl.findALLTrades();
@@ -107,7 +107,7 @@ class TestTradeDao1Impl {
 	@Test
 	void testDeleteAll() {
 		
-        TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+        TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		
 		boolean t;
 		t= tradeDaoImpl.deleteAll();
@@ -117,7 +117,7 @@ class TestTradeDao1Impl {
 	@Test
 	void testDeleteAllNegative() {
 		
-        TradeDao1Impl tradeDaoImpl = new TradeDao1Impl();
+        TradeDAOImpl tradeDaoImpl = new TradeDAOImpl();
 		
 		boolean t;
 		t= tradeDaoImpl.deleteAll();

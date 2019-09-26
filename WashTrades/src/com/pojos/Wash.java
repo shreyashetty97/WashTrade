@@ -9,10 +9,10 @@ public class Wash {
 	private Symbol symbol;
 	private Broker broker;
 	private Trader trader;
-	private List<Trade> trades; //List of all TradeID's of trades associated with this washid
+	private List<Trade> trades; //List of all trades associated with this washid
 	public Wash(int washID, float priceMargin, float volumeMargin, Symbol symbol, Broker broker, Trader trader,
-			List<Trade> trades) {
-		super();
+			List<Trade> trades) 
+	{
 		this.washID = washID;
 		this.priceMargin = priceMargin;
 		this.volumeMargin = volumeMargin;

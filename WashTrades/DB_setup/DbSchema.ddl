@@ -31,14 +31,6 @@ GRANT
     CREATE SYNONYM
 TO hr;
 
-CREATE TABLE hr.adminlogin (
-    userid   VARCHAR2(20 BYTE) NOT NULL,
-    hash     VARCHAR2(70 BYTE) NOT NULL
-)
-PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
-    STORAGE ( INITIAL 65536 NEXT 1048576 PCTINCREASE 0 MINEXTENTS 1 MAXEXTENTS 2147483645 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL
-    DEFAULT );
-
 CREATE TABLE hr.broker (
     brokerid   NUMBER NOT NULL,
     name       VARCHAR2(20 BYTE) NOT NULL
@@ -63,7 +55,6 @@ ALTER TABLE hr.broker
 CREATE TABLE hr.calloption (
     tradeid       NUMBER(6) NOT NULL,
     expirydate    DATE NOT NULL,
-    expiryprice   NUMBER(*, 2) NOT NULL,
     strike        NUMBER(*, 2) NOT NULL
 )
 PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
@@ -127,7 +118,6 @@ ALTER TABLE hr.future
 CREATE TABLE hr.putoption (
     tradeid       NUMBER(6) NOT NULL,
     expirydate    DATE NOT NULL,
-    expiryprice   NUMBER(6, 2) NOT NULL,
     strike        NUMBER(6, 2) NOT NULL
 )
 PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
@@ -217,14 +207,6 @@ ALTER TABLE hr.trader
     ADD CONSTRAINT trader_pk PRIMARY KEY ( traderid )
         USING INDEX hr.trader_pk;
 
-CREATE TABLE hr.traderlogin (
-    userid   VARCHAR2(20 BYTE) NOT NULL,
-    hash     VARCHAR2(70 BYTE) NOT NULL
-)
-PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
-    STORAGE ( INITIAL 65536 NEXT 1048576 PCTINCREASE 0 MINEXTENTS 1 MAXEXTENTS 2147483645 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL
-    DEFAULT );
-
 CREATE TABLE hr.wash (
     washid         NUMBER(6) NOT NULL,
     pricemargin    NUMBER(6, 2) NOT NULL,
@@ -261,62 +243,62 @@ PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
 ALTER TABLE hr.calloption
     ADD CONSTRAINT calloption_fk1 FOREIGN KEY ( tradeid )
         REFERENCES hr.trade ( tradeid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.equity
     ADD CONSTRAINT equity_fk1 FOREIGN KEY ( tradeid )
         REFERENCES hr.trade ( tradeid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.future
     ADD CONSTRAINT future_fk1 FOREIGN KEY ( tradeid )
         REFERENCES hr.trade ( tradeid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.putoption
     ADD CONSTRAINT putoption_fk1 FOREIGN KEY ( tradeid )
         REFERENCES hr.trade ( tradeid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.trade
     ADD CONSTRAINT trade_fk1 FOREIGN KEY ( brokerid )
         REFERENCES hr.broker ( brokerid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.trade
     ADD CONSTRAINT trade_fk2 FOREIGN KEY ( symbolid )
         REFERENCES hr.symbol ( symbolid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.trade
     ADD CONSTRAINT trade_fk3 FOREIGN KEY ( traderid )
         REFERENCES hr.trader ( traderid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.wash
     ADD CONSTRAINT wash_fk1 FOREIGN KEY ( brokerid )
         REFERENCES hr.broker ( brokerid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.wash
     ADD CONSTRAINT wash_fk3 FOREIGN KEY ( symbolid )
         REFERENCES hr.symbol ( symbolid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.wash
     ADD CONSTRAINT wash_fk2 FOREIGN KEY ( traderid )
         REFERENCES hr.trader ( traderid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.washmap
     ADD CONSTRAINT washmap_fk1 FOREIGN KEY ( tradeid )
         REFERENCES hr.trade ( tradeid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 ALTER TABLE hr.washmap
     ADD CONSTRAINT washmap_fk2 FOREIGN KEY ( washid )
         REFERENCES hr.wash ( washid )
-    NOT DEFERRABLE;
+    ON DELETE CASCADE;
 
 
 

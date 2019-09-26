@@ -78,7 +78,7 @@ public class FutureDAOImpl implements FutureDAO {
 	public boolean deleteAllFutures() {
 		// TODO Auto-generated method stub
 		try(Connection connection=openConnection()) {
-			String DELETE_ALL="delete  from future";
+			String DELETE_ALL="delete from future";
 			Statement st=connection.createStatement();
 			st.executeUpdate(DELETE_ALL);
 			

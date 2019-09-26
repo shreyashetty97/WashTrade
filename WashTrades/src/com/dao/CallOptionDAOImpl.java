@@ -36,9 +36,8 @@ public class CallOptionDAOImpl implements CallOptionDAO {
 		try(Connection con=openConnection()){
 			int tradeID=calloption.getTradeID();
 			Date expiryDate=calloption.getExpiryDate();
-			float expiryPrice=calloption.getExpiryPrice();
 			float Strike=calloption.getStrike();
-			String INSERT="insert into equity values(?,?,?,?)";
+			String INSERT="insert into equity values(?,?,?)";
 			PreparedStatement ps=con.prepareStatement(INSERT);
 			ps.setInt(1, tradeID);
 			ps.setDate(2, expiryDate);
@@ -84,7 +83,7 @@ public class CallOptionDAOImpl implements CallOptionDAO {
 	public boolean deleteAllCallOptions() {
 		// TODO Auto-generated method stub
 		try(Connection connection=openConnection()) {
-			String DELETE_ALL="delete  from calloption";
+			String DELETE_ALL="delete from calloption";
 			Statement st=connection.createStatement();
 			st.executeUpdate(DELETE_ALL);
 			

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import com.dao.TradeDao1Impl;
+import com.dao.TradeDAOImpl;
 import com.pojos.Broker;
 import com.pojos.Symbol;
 import com.pojos.Trade;
@@ -50,7 +50,7 @@ public class WashDAOImpl implements WashDAO {
 		List<Wash> washes=new ArrayList<Wash>(); 
 		try(Connection con=openConnection()){
 			
-			String SELECT = "select * from wash";
+			String SELECT = "select * from wash order by washid asc";
 		    PreparedStatement ps=con.prepareStatement(SELECT);
 		    rs = ps.executeQuery();
 		    while(rs.next()) {
@@ -120,7 +120,7 @@ public class WashDAOImpl implements WashDAO {
 	@Override
 	public List<Trade> findTradesByWashID(int washID) {
 		List<Integer> tradeIDs= (new WashMapDAOImpl()).findTradeIDsByWashID(washID);
-		List<Trade> washTrades=tradeIDs.stream().map((id)->{return (new TradeDao1Impl()).findByTradeID(id);}).collect(Collectors.toList());
+		List<Trade> washTrades= (new TradeDAOImpl().findByTradeIDs(tradeIDs));
 		return washTrades;
 	}
 

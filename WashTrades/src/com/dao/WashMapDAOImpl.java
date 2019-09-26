@@ -70,7 +70,7 @@ public class WashMapDAOImpl implements WashMapDAO {
 	public List<Integer> findTradeIDsByWashID(int washID) {
 		// TODO Auto-generated method stub
 		List<Integer> tradeIDs = new ArrayList<Integer>();
-		String SQL_FIND_TRADE_IDS = "select tradeid from washmap where washid=?";
+		String SQL_FIND_TRADE_IDS = "select tradeid from washmap where washid=? order by tradeid";
 		try {
 			Connection con = openConnection();{
 				
