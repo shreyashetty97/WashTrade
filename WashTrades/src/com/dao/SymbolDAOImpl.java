@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.pojos.Broker;
 import com.pojos.Symbol;
@@ -38,7 +39,7 @@ public class SymbolDAOImpl implements SymbolDAO {
 			
 			String INSERT_SYMBOL="insert into symbol values(?,?)";
 			PreparedStatement ps=con.prepareStatement(INSERT_SYMBOL);
-			ps.setInt(1, symbol.getSymbolId());
+			ps.setInt(1, symbol.getsymbolID());
 			ps.setString(2, symbol.getName());
 			
 			rows=ps.executeUpdate();
@@ -53,7 +54,7 @@ public class SymbolDAOImpl implements SymbolDAO {
 	}
 
 	@Override
-	public Symbol findBySymbolID(int symbolID) {
+	public Symbol getBySymbolID(int symbolID) {
 		// TODO Auto-generated method stub
 		Symbol symbol=null;
 		try(Connection con=openConnection()){
@@ -79,7 +80,7 @@ public class SymbolDAOImpl implements SymbolDAO {
 	@Override
 	public Symbol deleteBySymbolID(int symbolID) {
 		// TODO Auto-generated method stub
-        Symbol symbol=findBySymbolID(symbolID);
+        Symbol symbol=getBySymbolID(symbolID);
 		
 		if (symbol!=null){
 		try(Connection con=openConnection()){
@@ -124,4 +125,24 @@ public class SymbolDAOImpl implements SymbolDAO {
 		return symbol;
 	}
 
+
+	@Override
+	public boolean deleteAllSymbols() {
+		// TODO Auto-generated method stub
+		try(Connection connection=openConnection()) {
+			String DELETE_ALL="delete  from symbol";
+			Statement st=connection.createStatement();
+			st.executeUpdate(DELETE_ALL);
+			
+			
+			return true;
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+				return false;
+			}
+	}
+
+
+	
 }

@@ -2,14 +2,14 @@ package com.pojos;
 
 public class Symbol {
 	
-	private int symbolId;
+	private int symbolID;
 	private String name;
 	
 	public Symbol() {
 		
 	}
 
-	public Symbol(int symbolId,String name) {
+	public Symbol(int symbolID,String name) {
 		this.name = name;
 	}
 
@@ -21,13 +21,13 @@ public class Symbol {
 		this.name = name;
 	}
 
-	public int getSymbolId() {
-		return symbolId;
+	public int getsymbolID() {
+		return symbolID;
 	}
 
 	@Override
 	public String toString() {
-		return "Symbol [symbolId=" + symbolId + ", name=" + name + "]";
+		return "Symbol [symbolID=" + symbolID + ", name=" + name + "]";
 	}
 	
 }

@@ -9,7 +9,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import com.dao.TradeDao1Impl;
+import com.pojos.Broker;
+import com.pojos.Symbol;
 import com.pojos.Trade;
+import com.pojos.Trader;
 import com.pojos.Wash;
 
 public class WashDAOImpl implements WashDAO {
@@ -40,38 +46,34 @@ public class WashDAOImpl implements WashDAO {
 
 	@Override
 	public List<Wash> findAllWash() {
-		// TODO Auto-generated method stub
-		Trade trade = null;
-		List<Wash> washList = new ArrayList<Wash>();
-		String SQL_FIND_ALL = "select * from washtrades";
-		try(Connection con=openConnection();){
-			Statement st=con.createStatement();
+		ResultSet rs=null;
+		List<Wash> washes=new ArrayList<Wash>(); 
+		try(Connection con=openConnection()){
 			
-			ResultSet resultSet=st.executeQuery(SQL_FIND_ALL);
-			while(resultSet.next()) {
-				int washID = resultSet.getInt("washID");
-				int brokerID = resultSet.getInt("brokerID");
-			    int traderID = resultSet.getInt("traderID");
-//                String tradeType = resultSet.getString("trade type"); /// buy OR SELL
-//				Date timeStamp = resultSet.getDate("timestamp");
-//				int volume = resultSet.getInt("volume");;
-//				String securityType = resultSet.getString("security type");;
-//				float price = resultSet.getInt("price");
-//				int symbolID = resultSet.getInt("symbolID");
-			    
-			    //call method with argument washid to fetch all tradeIDs
-			    List<Trade> washTrades = func(washID);
-			    
-			    
-                
-				
-				return washList;
+			String SELECT = "select * from wash";
+		    PreparedStatement ps=con.prepareStatement(SELECT);
+		    rs = ps.executeQuery();
+		    while(rs.next()) {
+				int washID=rs.getInt("washid");
+			    Symbol symbol=(new SymbolDAOImpl()).getBySymbolID(rs.getInt("symbolid"));
+			    Trader trader=(new TraderDAOImpl()).findByTraderID(rs.getInt("traderid"));
+			    Broker broker=(new BrokerDAOImpl()).findBrokerByID(rs.getInt("brokerid"));
+			    float priceMargin=rs.getFloat("pricemargin");
+				float volumeMargin=rs.getFloat("volumemargin");
+				List<Trade> trades= findTradesByWashID(washID);
+				Wash wash= new Wash(washID, priceMargin, volumeMargin, symbol, broker, trader, trades);
+				washes.add(wash);
 			}
-			
-		}catch(SQLException e) {
+        }
+		
+	catch (SQLException e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return null;
+		
+	
+		return washes;
+		
 
 	}
 
@@ -91,20 +93,25 @@ public class WashDAOImpl implements WashDAO {
 		    ps.setInt(1, wash.getWashID());
 		    ps.setFloat(2, wash.getPriceMargin());
 		    ps.setFloat(3, wash.getVolumeMargin());
-		    ps.setInt(4, wash.getBrokerID());
-		    ps.setInt(5, wash.getTraderID());
-		    ps.setInt(6, wash.getBrokerID());
+		    ps.setInt(4, wash.getBroker().getBrokerID());
+		    ps.setInt(5, wash.getTrader().getTraderID());
+		    ps.setInt(6, wash.getSymbol().getsymbolID());
 
-		    rows = ps.executeUpdate();
-
-			
-			
-		}catch (SQLException e) {
+		    washAdded = ps.executeUpdate();
+        }
+		
+		
+		
+		catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+		List<Trade> tradeList = wash.getTrades();
+		List<Integer> tradeIds= tradeList.stream().map((t)->{return t.getTradeID();}).collect(Collectors.toList());
+		WashMapDAO washMapDAO= new WashMapDAOImpl();
+		washMapDAO.addWashTradeIDs(wash.getWashID(), tradeIds);
 		
-		return rows;
+		return washAdded;
 
 	}
 
@@ -112,8 +119,34 @@ public class WashDAOImpl implements WashDAO {
 
 	@Override
 	public List<Trade> findTradesByWashID(int washID) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Integer> tradeIDs= (new WashMapDAOImpl()).findTradeIDsByWashID(washID);
+		List<Trade> washTrades=tradeIDs.stream().map((id)->{return (new TradeDao1Impl()).findByTradeID(id);}).collect(Collectors.toList());
+		return washTrades;
 	}
 
-}
+
+
+	@Override
+	public boolean deleteAllWash() {
+		// TODO Auto-generated method stub
+		String SQL_QUERY_DELETE_WASH = "delete from wash";
+		try {
+			Connection con = openConnection();{
+				
+			    Statement s = con.createStatement();
+				s.executeUpdate(SQL_QUERY_DELETE_WASH);
+				return true;
+		   
+			}
+					}catch (SQLException e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+		
+		return false;
+	}
+	}
+	
+	
+
+

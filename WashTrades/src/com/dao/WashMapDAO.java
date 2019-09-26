@@ -12,5 +12,8 @@ public interface WashMapDAO {
 	
 	// is invoked when findAllTradesByWashID ic called from WashDAO
 	List<Integer> findTradeIDsByWashID(int washID);
+	
+	//delete all tables
+	boolean deleteAllWashMap();
 
 }

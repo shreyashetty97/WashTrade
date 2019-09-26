@@ -230,7 +230,8 @@ CREATE TABLE hr.wash (
     pricemargin    NUMBER(6, 2) NOT NULL,
     volumemargin   NUMBER(6, 2) NOT NULL,
     brokerid       NUMBER(6) NOT NULL,
-    traderid       NUMBER(6) NOT NULL
+    traderid       NUMBER(6) NOT NULL,
+    symbolid       NUMBER(6) NOT NULL,
 )
 PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
     STORAGE ( INITIAL 65536 NEXT 1048576 PCTINCREASE 0 MINEXTENTS 1 MAXEXTENTS 2147483645 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL
@@ -295,6 +296,11 @@ ALTER TABLE hr.trade
 ALTER TABLE hr.wash
     ADD CONSTRAINT wash_fk1 FOREIGN KEY ( brokerid )
         REFERENCES hr.broker ( brokerid )
+    NOT DEFERRABLE;
+
+ALTER TABLE hr.wash
+    ADD CONSTRAINT wash_fk3 FOREIGN KEY ( symbolid )
+        REFERENCES hr.symbol ( symbolid )
     NOT DEFERRABLE;
 
 ALTER TABLE hr.wash

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 
 import com.pojos.Trader;
 
@@ -79,7 +79,7 @@ public class TraderDAOImpl implements TraderDAO {
 	}
 
 	@Override
-	public Trader deleteByIsbn(int traderID) {
+	public Trader deleteByTraderID(int traderID) {
 		// TODO Auto-generated method stub
 	Trader trader=findByTraderID(traderID);
 		
@@ -121,6 +121,23 @@ public class TraderDAOImpl implements TraderDAO {
 		// TODO Auto-generated method stub
 		return trader;
 		
+	}
+
+	@Override
+	public boolean deleteAllTraders() {
+		// TODO Auto-generated method stub
+		try(Connection connection=openConnection()) {
+			String DELETE_ALL="delete  from trader";
+			Statement st=connection.createStatement();
+			st.executeUpdate(DELETE_ALL);
+			
+			
+			return true;
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+				return false;
+			}
 	}
 
 }

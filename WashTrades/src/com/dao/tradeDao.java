@@ -23,7 +23,7 @@ public interface tradeDao {
 	
 	//deleting
 	Trade deleteTrade(int tradeID,int traderID);
-	
+	boolean deleteAll();
 	
 	
 	//updating

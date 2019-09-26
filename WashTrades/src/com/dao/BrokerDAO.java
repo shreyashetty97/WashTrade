@@ -10,4 +10,5 @@ public interface BrokerDAO {
     Broker findBrokerByID(int brokerID);
     Broker findBrokerByName(String name);
     Broker deleteByBrokerID(int brokerID);
+    boolean deleteAllBrokers();
 }

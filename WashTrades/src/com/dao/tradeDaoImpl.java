@@ -16,6 +16,7 @@ import com.dao.tradeDao;
 import com.pojos.Trade;
 import com.pojos.Trader;
 import com.pojos.Broker;
+import com.pojos.Symbol;
 
 public class tradeDaoImpl implements tradeDao {
 
@@ -46,6 +47,7 @@ public class tradeDaoImpl implements tradeDao {
            Trade trade=null;
            Trader trader= null;	
            Broker broker=null; 
+           Symbol symbol=null;
 		
 		try (Connection con=openConnection()){
 			
@@ -74,7 +76,7 @@ public class tradeDaoImpl implements tradeDao {
 					int Trader_ID=resultSet1.getInt("trader_id");
 					String Name=resultSet1.getString("name");
 				//	String Soeid=resultSet1.getString("soeid");
-					trader= new Trader(Name);
+					trader= new Trader(TraderID,Name);
 					
 				}
 				String FIND_BROKERID="select * from brokers where broker_id = ?";
@@ -85,12 +87,22 @@ public class tradeDaoImpl implements tradeDao {
 					int Broker_ID=resultSet2.getInt("broker_id");
 					String Name=resultSet2.getString("name");
 				//	String Soeid=resultSet2.getString("soeid");
-					broker= new Broker(Name);
+					broker= new Broker(BrokerID,Name);}
+					
+					String FIND_SYMBOLID="select * from symbol where symbol_id = ?";
+					PreparedStatement ps3=con.prepareStatement(FIND_SYMBOLID);
+					ps1.setInt(1, SymbolID);
+					ResultSet resultSet3=ps3.executeQuery();
+					while(resultSet3.next()) {
+						int SymbolID1=resultSet3.getInt("symbol_id");
+						String Name=resultSet3.getString("name");
+					//	String Soeid=resultSet2.getString("soeid");
+						symbol= new Symbol(SymbolID1,Name);
 					
 					
 				}
 				
-				trade= new Trade(TradeID,tradeType,timestamp,Volume,trader,broker,securityType,Price,SymbolID);
+				trade= new Trade(TradeID,tradeType,timestamp,Volume,trader,broker,securityType,Price,symbol);
 				
 			}
 			
@@ -112,7 +124,7 @@ public class tradeDaoImpl implements tradeDao {
 		 Trade trade1=null;
          Trader trader= null;	
          Broker broker=null; 
-			
+		 Symbol symbol=null;
 			
 			try (Connection con=openConnection()){
 				
@@ -123,45 +135,54 @@ public class tradeDaoImpl implements tradeDao {
 				ps.setInt(2, traderID);
 				ResultSet resultSet=ps.executeQuery();
 				while(resultSet.next()) {
-					int TradeID= resultSet.getInt("trade_id");
+					int tradeID= resultSet.getInt("trade_id");
 					Date timestamp1= resultSet.getDate("timestamp");
 					String tradeType= resultSet.getString("trade_tp");
-					int SymbolID = resultSet.getInt("symbol_id");
+					int symbolID = resultSet.getInt("symbol_id");
 					String securityType= resultSet.getString("security_tp");
-					int Volume = resultSet.getInt("volume");
-					float Price = resultSet.getFloat("price");
-					int TraderID = resultSet.getInt("trader_id");
-					int BrokerID = resultSet.getInt("broker_id");
+					int volume = resultSet.getInt("volume");
+					float price = resultSet.getFloat("price");
+					int traderID1 = resultSet.getInt("trader_id");
+					int brokerID = resultSet.getInt("broker_id");
 					String FIND_TRADERID="select * from traders where trader_id = ?";
 					PreparedStatement ps1=con.prepareStatement(FIND_TRADERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID1);
 					ResultSet resultSet1=ps1.executeQuery();
 					while(resultSet1.next()) {
 						int Trader_ID=resultSet1.getInt("trader_id");
 						String Name=resultSet1.getString("name");
 					//	String Soeid=resultSet1.getString("soeid");
-						trader= new Trader(Name);
+						trader= new Trader(Trader_ID,Name);
 						
 					}
 					String FIND_BROKERID="select * from brokers where broker_id = ?";
 					PreparedStatement ps2=con.prepareStatement(FIND_BROKERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, brokerID);
 					ResultSet resultSet2=ps2.executeQuery();
 					while(resultSet2.next()) {
 						int Broker_ID=resultSet2.getInt("broker_id");
 						String Name=resultSet2.getString("name");
 					//	String Soeid=resultSet2.getString("soeid");
-						broker= new Broker(Name);
+						broker= new Broker(Broker_ID,Name);
 						
 						
 					}
+					String FIND_SYMBOLID="select * from symbol where symbol_id = ?";
+					PreparedStatement ps3=con.prepareStatement(FIND_SYMBOLID);
+					ps1.setInt(1, symbolID);
+					ResultSet resultSet3=ps3.executeQuery();
+					while(resultSet2.next()) {
+						int SymbolID1=resultSet3.getInt("symbol_id");
+						String Name=resultSet3.getString("name");
+					//	String Soeid=resultSet2.getString("soeid");
+						symbol= new Symbol(SymbolID1,Name);
 					
-					trade1= new Trade(TradeID,tradeType,timestamp,Volume,trader,broker,securityType,Price,SymbolID);
+					trade1= new Trade(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
 					trade.add(trade1);
 					
 				}
 				
-			
+				}
 				
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -179,7 +200,7 @@ public class tradeDaoImpl implements tradeDao {
 		 Trade trade1=null;
         Trader trader= null;	
         Broker broker=null; 
-			
+        Symbol symbol=null;	
 			
 			try (Connection con=openConnection()){
 				
@@ -190,45 +211,53 @@ public class tradeDaoImpl implements tradeDao {
 				ps.setInt(2, traderID);
 				ResultSet resultSet=ps.executeQuery();
 				while(resultSet.next()) {
-					int TradeID= resultSet.getInt("trade_id");
+					int tradeID= resultSet.getInt("trade_id");
 					Date timestamp= resultSet.getDate("timestamp");
 					String tradeType1= resultSet.getString("trade_tp");
-					int SymbolID = resultSet.getInt("symbol_id");
+					int symbolID = resultSet.getInt("symbol_id");
 					String securityType= resultSet.getString("security_tp");
-					int Volume = resultSet.getInt("volume");
-					float Price = resultSet.getFloat("price");
-					int TraderID = resultSet.getInt("trader_id");
-					int BrokerID = resultSet.getInt("broker_id");
+					int volume = resultSet.getInt("volume");
+					float price = resultSet.getFloat("price");
+					int traderID1 = resultSet.getInt("trader_id");
+					int brokerID = resultSet.getInt("broker_id");
 					String FIND_TRADERID="select * from traders where trader_id = ?";
 					PreparedStatement ps1=con.prepareStatement(FIND_TRADERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID1);
 					ResultSet resultSet1=ps1.executeQuery();
 					while(resultSet1.next()) {
 						int Trader_ID=resultSet1.getInt("trader_id");
 						String Name=resultSet1.getString("name");
 					//	String Soeid=resultSet1.getString("soeid");
-						trader= new Trader(Name);
+						trader= new Trader(Trader_ID,Name);
 						
 					}
 					String FIND_BROKERID="select * from brokers where broker_id = ?";
 					PreparedStatement ps2=con.prepareStatement(FIND_BROKERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID1);
 					ResultSet resultSet2=ps2.executeQuery();
 					while(resultSet2.next()) {
 						int Broker_ID=resultSet2.getInt("broker_id");
 						String Name=resultSet2.getString("name");
 					//	String Soeid=resultSet2.getString("soeid");
-						broker= new Broker(Name);
+						broker= new Broker(Broker_ID,Name);
 						
 						
-					}
+					}String FIND_SYMBOLID="select * from symbol where symbol_id = ?";
+					PreparedStatement ps3=con.prepareStatement(FIND_SYMBOLID);
+					ps1.setInt(1, symbolID);
+					ResultSet resultSet3=ps3.executeQuery();
+					while(resultSet3.next()) {
+						int SymbolID1=resultSet3.getInt("symbol_id");
+						String Name=resultSet3.getString("name");
+					//	String Soeid=resultSet2.getString("soeid");
+						symbol= new Symbol(SymbolID1,Name);
 					
-					trade1= new Trade(TradeID,tradeType,timestamp,Volume,trader,broker,securityType,Price,SymbolID);;
+					trade1= new Trade(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
 					trade.add(trade1);
 					
 				}
 				
-			
+				}
 				
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -246,7 +275,7 @@ public class tradeDaoImpl implements tradeDao {
 		 Trade trade1=null;
         Trader trader= null;	
         Broker broker=null; 
-			
+        Symbol symbol=null;	
 			
 			try (Connection con=openConnection()){
 				
@@ -257,45 +286,54 @@ public class tradeDaoImpl implements tradeDao {
 				ps.setInt(2, traderID);
 				ResultSet resultSet=ps.executeQuery();
 				while(resultSet.next()) {
-					int TradeID= resultSet.getInt("trade_id");
+					int tradeID= resultSet.getInt("trade_id");
 					Date timestamp= resultSet.getDate("timestamp");
 					String tradeType= resultSet.getString("trade_tp");
-					int SymbolID = resultSet.getInt("symbol_id");
+					int symbolID = resultSet.getInt("symbol_id");
 					String securityType= resultSet.getString("security_tp");
-					int Volume = resultSet.getInt("volume");
-					float Price = resultSet.getFloat("price");
-					int TraderID = resultSet.getInt("trader_id");
-					int BrokerID = resultSet.getInt("broker_id");
+					int volume = resultSet.getInt("volume");
+					float price = resultSet.getFloat("price");
+					int traderID1 = resultSet.getInt("trader_id");
+					int brokerID = resultSet.getInt("broker_id");
 					String FIND_TRADERID="select * from traders where trader_id = ?";
 					PreparedStatement ps1=con.prepareStatement(FIND_TRADERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID);
 					ResultSet resultSet1=ps1.executeQuery();
 					while(resultSet1.next()) {
 						int Trader_ID=resultSet1.getInt("trader_id");
 						String Name=resultSet1.getString("name");
 					//	String Soeid=resultSet1.getString("soeid");
-						trader= new Trader(Name);
+						trader= new Trader(Trader_ID,Name);
 						
 					}
 					String FIND_BROKERID="select * from brokers where broker_id = ?";
 					PreparedStatement ps2=con.prepareStatement(FIND_BROKERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID1);
 					ResultSet resultSet2=ps2.executeQuery();
 					while(resultSet2.next()) {
 						int Broker_ID=resultSet2.getInt("broker_id");
 						String Name=resultSet2.getString("name");
 					//	String Soeid=resultSet2.getString("soeid");
-						broker= new Broker(Name);
+						broker= new Broker(Broker_ID,Name);
 						
 						
 					}
+					String FIND_SYMBOLID="select * from symbol where symbol_id = ?";
+					PreparedStatement ps3=con.prepareStatement(FIND_SYMBOLID);
+					ps1.setInt(1, symbolID);
+					ResultSet resultSet3=ps3.executeQuery();
+					while(resultSet3.next()) {
+						int SymbolID1=resultSet3.getInt("symbol_id");
+						String Name=resultSet3.getString("name");
+					//	String Soeid=resultSet2.getString("soeid");
+						symbol= new Symbol(SymbolID1,Name);
 					
-					trade1= new Trade(TradeID,tradeType,timestamp,Volume,trader,broker,securityType,Price,SymbolID);;
+					trade1= new Trade(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);;
 					trade.add(trade1);
 					
 				}
 				
-			
+				}
 				
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -313,7 +351,7 @@ public class tradeDaoImpl implements tradeDao {
 		 Trade trade1=null;
         Trader trader= null;	
         Broker broker=null; 
-			
+        Symbol symbol=null;	
 			
 			try (Connection con=openConnection()){
 				
@@ -324,40 +362,49 @@ public class tradeDaoImpl implements tradeDao {
 				ps.setInt(2, traderID);
 				ResultSet resultSet=ps.executeQuery();
 				while(resultSet.next()) {
-					int TradeID= resultSet.getInt("trade_id");
+					int tradeID= resultSet.getInt("trade_id");
 					Date timestamp= resultSet.getDate("timestamp");
 					String tradeType= resultSet.getString("trade_tp");
-					int SymbolID = resultSet.getInt("symbol_id");
+					int symbolID = resultSet.getInt("symbol_id");
 					String securityType= resultSet.getString("security_tp");
-					int Volume = resultSet.getInt("volume");
-					float Price = resultSet.getFloat("price");
-					int TraderID = resultSet.getInt("trader_id");
-					int BrokerID = resultSet.getInt("broker_id");
+					int volume = resultSet.getInt("volume");
+					float price = resultSet.getFloat("price");
+					int traderID1 = resultSet.getInt("trader_id");
+					int brokerID = resultSet.getInt("broker_id");
 					String FIND_TRADERID="select * from traders where trader_id = ?";
 					PreparedStatement ps1=con.prepareStatement(FIND_TRADERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID1);
 					ResultSet resultSet1=ps1.executeQuery();
 					while(resultSet1.next()) {
 						int Trader_ID=resultSet1.getInt("trader_id");
 						String Name=resultSet1.getString("name");
 					//	String Soeid=resultSet1.getString("soeid");
-						trader= new Trader(Name);
+						trader= new Trader(Trader_ID,Name);
 						
 					}
 					String FIND_BROKERID="select * from brokers where broker_id = ?";
 					PreparedStatement ps2=con.prepareStatement(FIND_BROKERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID);
 					ResultSet resultSet2=ps2.executeQuery();
 					while(resultSet2.next()) {
 						int Broker_ID=resultSet2.getInt("broker_id");
 						String Name=resultSet2.getString("name");
 					//	String Soeid=resultSet2.getString("soeid");
-						broker= new Broker(Name);
+						broker= new Broker(Broker_ID,Name);
 						
 						
 					}
+					String FIND_SYMBOLID1="select * from symbol where symbol_id = ?";
+					PreparedStatement ps3=con.prepareStatement(FIND_SYMBOLID1);
+					ps1.setInt(1, symbolID);
+					ResultSet resultSet3=ps3.executeQuery();
+					while(resultSet3.next()) {
+						int SymbolID1=resultSet3.getInt("symbol_id");
+						String Name=resultSet3.getString("name");
+					//	String Soeid=resultSet2.getString("soeid");
+						symbol= new Symbol(SymbolID1,Name);}
 					
-					trade1= new Trade(TradeID,tradeType,timestamp,Volume,trader,broker,securityType,Price,SymbolID);;
+					trade1= new Trade(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);;
 					trade.add(trade1);
 					
 				}
@@ -380,7 +427,7 @@ public class tradeDaoImpl implements tradeDao {
 		 Trade trade1=null;
         Trader trader= null;	
         Broker broker=null; 
-			
+        Symbol symbol=null;		
 			
 			try (Connection con=openConnection()){
 				
@@ -391,40 +438,49 @@ public class tradeDaoImpl implements tradeDao {
 				
 				ResultSet resultSet=ps.executeQuery();
 				while(resultSet.next()) {
-					int TradeID= resultSet.getInt("trade_id");
+					int tradeID= resultSet.getInt("trade_id");
 					Date timestamp= resultSet.getDate("timestamp");
 					String tradeType= resultSet.getString("trade_tp");
-					int SymbolID = resultSet.getInt("symbol_id");
+					int symbolID = resultSet.getInt("symbol_id");
 					String securityType= resultSet.getString("security_tp");
-					int Volume = resultSet.getInt("volume");
-					float Price = resultSet.getFloat("price");
-					int TraderID = resultSet.getInt("trader_id");
-					int BrokerID = resultSet.getInt("broker_id");
+					int volume = resultSet.getInt("volume");
+					float price = resultSet.getFloat("price");
+					int traderID1 = resultSet.getInt("trader_id");
+					int brokerID = resultSet.getInt("broker_id");
 					String FIND_TRADERID1="select * from traders where trader_id = ?";
 					PreparedStatement ps1=con.prepareStatement(FIND_TRADERID1);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID1);
 					ResultSet resultSet1=ps1.executeQuery();
 					while(resultSet1.next()) {
 						int Trader_ID=resultSet1.getInt("trader_id");
 						String Name=resultSet1.getString("name");
 					//	String Soeid=resultSet1.getString("soeid");
-						trader= new Trader(Name);
+						trader= new Trader(Trader_ID,Name);
 						
 					}
 					String FIND_BROKERID="select * from brokers where broker_id = ?";
 					PreparedStatement ps2=con.prepareStatement(FIND_BROKERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID1);
 					ResultSet resultSet2=ps2.executeQuery();
 					while(resultSet2.next()) {
 						int Broker_ID=resultSet2.getInt("broker_id");
 						String Name=resultSet2.getString("name");
 					//	String Soeid=resultSet2.getString("soeid");
-						broker= new Broker(Name);
+						broker= new Broker( Broker_ID,Name);
 						
 						
 					}
+					String FIND_SYMBOLID1="select * from symbol where symbol_id = ?";
+					PreparedStatement ps3=con.prepareStatement(FIND_SYMBOLID1);
+					ps1.setInt(1, symbolID);
+					ResultSet resultSet3=ps3.executeQuery();
+					while(resultSet3.next()) {
+						int SymbolID1=resultSet3.getInt("symbol_id");
+						String Name=resultSet3.getString("name");
+					//	String Soeid=resultSet2.getString("soeid");
+						symbol= new Symbol(SymbolID1,Name);}
 					
-					trade1= new Trade(TradeID,tradeType,timestamp,Volume,trader,broker,securityType,Price,SymbolID);
+					trade1= new Trade(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
 					trade.add(trade1);
 					
 				}
@@ -447,7 +503,7 @@ public class tradeDaoImpl implements tradeDao {
 		 Trade trade1=null;
         Trader trader= null;	
         Broker broker=null; 
-			
+        Symbol symbol=null;	
 			
 			try (Connection con=openConnection()){
 				
@@ -458,40 +514,49 @@ public class tradeDaoImpl implements tradeDao {
 				ps.setInt(2, traderID);
 				ResultSet resultSet=ps.executeQuery();
 				while(resultSet.next()) {
-					int TradeID= resultSet.getInt("trade_id");
+					int tradeID= resultSet.getInt("trade_id");
 					Date timestamp= resultSet.getDate("timestamp");
 					String tradeType= resultSet.getString("trade_tp");
-					int SymbolID = resultSet.getInt("symbol_id");
+					int symbolID = resultSet.getInt("symbol_id");
 					String securityType= resultSet.getString("security_tp");
-					int Volume = resultSet.getInt("volume");
-					float Price = resultSet.getFloat("price");
-					int TraderID = resultSet.getInt("trader_id");
-					int BrokerID = resultSet.getInt("broker_id");
+					int volume = resultSet.getInt("volume");
+					float price = resultSet.getFloat("price");
+					int traderID1 = resultSet.getInt("trader_id");
+					int brokerID1 = resultSet.getInt("broker_id");
 					String FIND_TRADERID="select * from traders where trader_id = ?";
 					PreparedStatement ps1=con.prepareStatement(FIND_TRADERID);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, traderID1);
 					ResultSet resultSet1=ps1.executeQuery();
 					while(resultSet1.next()) {
 						int Trader_ID=resultSet1.getInt("trader_id");
 						String Name=resultSet1.getString("name");
 					//	String Soeid=resultSet1.getString("soeid");
-						trader= new Trader(Name);
+						trader= new Trader(Trader_ID,Name);
 						
 					}
 					String FIND_BROKERID1="select * from brokers where broker_id = ?";
 					PreparedStatement ps2=con.prepareStatement(FIND_BROKERID1);
-					ps1.setInt(1, TraderID);
+					ps1.setInt(1, brokerID1);
 					ResultSet resultSet2=ps2.executeQuery();
 					while(resultSet2.next()) {
 						int Broker_ID=resultSet2.getInt("broker_id");
 						String Name=resultSet2.getString("name");
 					//	String Soeid=resultSet2.getString("soeid");
-						broker= new Broker(Name);
+						broker= new Broker(Broker_ID,Name);
 						
 						
 					}
+					String FIND_SYMBOLID1="select * from symbol where symbol_id = ?";
+					PreparedStatement ps3=con.prepareStatement(FIND_SYMBOLID1);
+					ps1.setInt(1, symbolID);
+					ResultSet resultSet3=ps3.executeQuery();
+					while(resultSet3.next()) {
+						int SymbolID1=resultSet3.getInt("symbol_id");
+						String Name=resultSet3.getString("name");
+					//	String Soeid=resultSet2.getString("soeid");
+						symbol= new Symbol(SymbolID1,Name);}
 					
-					trade1= new Trade(TradeID,tradeType,timestamp,Volume,trader,broker,securityType,Price,SymbolID);;
+					trade1= new Trade(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
 					trade.add(trade1);
 					
 				}
@@ -516,7 +581,7 @@ public class tradeDaoImpl implements tradeDao {
 			 Trade trade1=null;
 		     Trader trader= null;	
 		     Broker broker=null; 
-			
+		     Symbol symbol=null;	
 			
 					try(Connection con=openConnection();){
 						Statement st=con.createStatement();
@@ -526,40 +591,49 @@ public class tradeDaoImpl implements tradeDao {
 						ResultSet resultSet=st.executeQuery(SQL_FIND_ALL);
 						while(resultSet.next())
 						{
-							int TradeID= resultSet.getInt("trade_id");
+							int tradeID= resultSet.getInt("trade_id");
 							Date timestamp= resultSet.getDate("timestamp");
 							String tradeType= resultSet.getString("trade_tp");
-							int SymbolID = resultSet.getInt("symbol_id");
+							int symbolID = resultSet.getInt("symbol_id");
 							String securityType= resultSet.getString("security_tp");
-							int Volume = resultSet.getInt("volume");
-							float Price = resultSet.getFloat("price");
-							int TraderID = resultSet.getInt("trader_id");
-							int BrokerID = resultSet.getInt("broker_id");
+							int volume = resultSet.getInt("volume");
+							float price = resultSet.getFloat("price");
+							int traderID1 = resultSet.getInt("trader_id");
+							int brokerID = resultSet.getInt("broker_id");
 							String FIND_TRADERID="select * from traders where trader_id = ?";
 							PreparedStatement ps1=con.prepareStatement(FIND_TRADERID);
-							ps1.setInt(1, TraderID);
+							ps1.setInt(1, traderID1);
 							ResultSet resultSet1=ps1.executeQuery();
 							while(resultSet1.next()) {
 								int Trader_ID=resultSet1.getInt("trader_id");
 								String Name=resultSet1.getString("name");
 							//	String Soeid=resultSet1.getString("soeid");
-								trader= new Trader(Name);
+								trader= new Trader(Trader_ID,Name);
 								
 							}
 							String FIND_BROKERID1="select * from brokers where broker_id = ?";
 							PreparedStatement ps2=con.prepareStatement(FIND_BROKERID1);
-							ps1.setInt(1, TraderID);
+							ps1.setInt(1, traderID1);
 							ResultSet resultSet2=ps2.executeQuery();
 							while(resultSet2.next()) {
 								int Broker_ID=resultSet2.getInt("broker_id");
 								String Name=resultSet2.getString("name");
 							//	String Soeid=resultSet2.getString("soeid");
-								broker= new Broker(Name);
+								broker= new Broker(Broker_ID,Name);
 								
 								
 							}
+							String FIND_SYMBOLID1="select * from symbol where symbol_id = ?";
+							PreparedStatement ps3=con.prepareStatement(FIND_SYMBOLID1);
+							ps1.setInt(1, symbolID);
+							ResultSet resultSet3=ps3.executeQuery();
+							while(resultSet3.next()) {
+								int SymbolID1=resultSet3.getInt("symbol_id");
+								String Name=resultSet3.getString("name");
+							//	String Soeid=resultSet2.getString("soeid");
+								symbol= new Symbol(SymbolID1,Name);}
 							
-							trade1= new Trade(TradeID,tradeType,timestamp,Volume,trader,broker,securityType,Price,SymbolID);;
+							trade1= new Trade(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
 							trade.add(trade1);
 							
 						}
@@ -588,12 +662,12 @@ public class tradeDaoImpl implements tradeDao {
 					ps.setInt(1, trade.getTradeID());
 					ps.setDate(2, trade.getTimeStamp());
 					ps.setString(3,trade.getTradeType());
-					ps.setInt(4,trade.getSymbolID());
+					ps.setInt(4,trade.getSymbol().getsymbolID());
 					ps.setString(5,trade.getSecurityType());
 					ps.setInt(6,trade.getVolume());
 					ps.setFloat(7,trade.getPrice());
-//					ps.setTra(8,trade.getTrader());
-//					ps.setnt(9,trade.getBroker());
+					ps.setInt(8,trade.getTrader().getTraderID());
+					ps.setInt(9,trade.getBroker().getBrokerID());
 					
 					rows= ps.executeUpdate();
 		 }catch (SQLException e) {
@@ -763,6 +837,27 @@ try(Connection con= openConnection()) {
 				// TODO: handle exception
 			}
 			
+		return false;
+	}
+
+
+	@Override
+	public boolean deleteAll() {
+		// TODO Auto-generated method stub
+		String SQL_QUERY_DELETE_TRADE = "delete from trade";
+		try {
+			Connection con = openConnection();{
+				
+			    Statement s = con.createStatement();
+				s.executeUpdate(SQL_QUERY_DELETE_TRADE);
+				return true;
+		   
+			}
+					}catch (SQLException e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+		
 		return false;
 	}
 

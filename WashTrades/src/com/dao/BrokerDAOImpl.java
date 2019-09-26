@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.pojos.Broker;
 import com.pojos.Trader;
@@ -122,4 +123,22 @@ public class BrokerDAOImpl implements BrokerDAO {
 		
 	}
 
-}
+	@Override
+	public boolean deleteAllBrokers() {
+		// TODO Auto-generated method stub
+		try(Connection connection=openConnection()) {
+			String DELETE_ALL="delete  from broker";
+			Statement st=connection.createStatement();
+			st.executeUpdate(DELETE_ALL);
+			
+			
+			return true;
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+				return false;
+			}
+	}
+	}
+
+
