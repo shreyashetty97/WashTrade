@@ -24,7 +24,7 @@ class TestPutOption {
 		Date date=new Date(2000,4,20);
 		
 		PutOptionDAOImpl dao=new PutOptionDAOImpl();//create an object of the class to be tested
-		PutOption putoption=new PutOption(1, "p", date, 0, trader, broker, "p",0, symbol, date, 0, 0);
+		PutOption putoption=new PutOption(1, "p", date, 0, trader, broker, "p",0, symbol);
 		int r=dao.addPutOptionInfo(putoption);
 		
 		assertEquals(1, r); 

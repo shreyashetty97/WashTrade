@@ -24,7 +24,7 @@ class TestCallOption {
 		Date date=new Date(2000,4,20);
 		
 		CallOptionDAOImpl dao=new CallOptionDAOImpl();//create an object of the class to be tested
-		CallOption calloption=new CallOption(1, "p", date, 0, trader, broker, "p",0, symbol, date, 0, 0);
+		CallOption calloption=new CallOption(1, "p", date, 0, trader, broker, "p",0, symbol);
 		int r=dao.addCallOptionInfo(calloption);
 		
 		assertEquals(1, r); 

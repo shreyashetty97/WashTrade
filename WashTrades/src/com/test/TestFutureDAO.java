@@ -25,7 +25,7 @@ public class TestFutureDAO {
 		Date date=new Date(2000,4,20);
 		
 		FutureDAOImpl dao=new FutureDAOImpl();//create an object of the class to be tested
-		Future future=new Future(1, "h", date, 0, trader, broker, "fuure",0, symbol, date);
+		Future future=new Future(1, "h", date, 0, trader, broker, "fuure",0, symbol);
 		int r=dao.addFutureInfo(future);
 		
 		assertEquals(1, r); 
