@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.pojos.Broker;
 import com.pojos.Trader;
 
 public class TraderDAOImpl implements TraderDAO {
@@ -138,6 +141,32 @@ public class TraderDAOImpl implements TraderDAO {
 				// TODO: handle exception
 				return false;
 			}
+	}
+
+	@Override
+	public List<Trader> findAllTraders() {
+		// TODO Auto-generated method stub
+		List<Trader>traders=new ArrayList<Trader>();
+		String SQL_FIND_ALL="select * from trader order by traderID";
+		try (Connection con=openConnection()){
+			
+			Statement st=con.createStatement();
+			ResultSet resultSet=st.executeQuery(SQL_FIND_ALL);
+			while(resultSet.next()) {
+				
+				int traderID=resultSet.getInt("traderID");
+				String name=resultSet.getString("name");
+				
+				Trader trader=new Trader(traderID,name);
+				traders.add(trader);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return traders;
 	}
 
 }

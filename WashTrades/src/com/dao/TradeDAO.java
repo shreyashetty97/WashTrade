@@ -6,6 +6,8 @@ import com.pojos.Trade;
 
 public interface TradeDAO {
 	
+	
+	//count all trades
 	//find by trade ID
 	List<Trade> findByTradeIDs(List<Integer> tradeID);
 	//find by traderID

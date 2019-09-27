@@ -1,4 +1,4 @@
-package com.date;
+package com.helper;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;

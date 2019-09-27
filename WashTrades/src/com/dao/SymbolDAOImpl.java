@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.pojos.Broker;
 import com.pojos.Symbol;
@@ -108,7 +110,7 @@ public class SymbolDAOImpl implements SymbolDAO {
 		Symbol symbol=null;
 		try(Connection con=openConnection()){
 			
-			String SELECT="select symbolID from trader where name=? ";
+			String SELECT="select symbolID from symbol where name=? ";
 			PreparedStatement st=con.prepareStatement(SELECT);
 			st.setString(1,name);
 		    ResultSet rs=st.executeQuery();
@@ -141,6 +143,33 @@ public class SymbolDAOImpl implements SymbolDAO {
 				// TODO: handle exception
 				return false;
 			}
+	}
+
+
+	@Override
+	public List<Symbol> findAllSymbols() {
+		// TODO Auto-generated method stub
+		List<Symbol>symbols=new ArrayList<Symbol>();
+		String SQL_FIND_ALL="select * from symbol order by symbolID";
+		try (Connection con=openConnection()){
+			
+			Statement st=con.createStatement();
+			ResultSet resultSet=st.executeQuery(SQL_FIND_ALL);
+			while(resultSet.next()) {
+				
+				int symbolID=resultSet.getInt("symbolID");
+				String name=resultSet.getString("name");
+				
+				Symbol symbol=new Symbol(symbolID,name);
+				symbols.add(symbol);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return symbols;
 	}
 
 

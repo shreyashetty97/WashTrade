@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import com.pojos.Broker;
 import com.pojos.Trader;
@@ -105,7 +108,7 @@ public class BrokerDAOImpl implements BrokerDAO {
 		Broker broker=null;
 		try(Connection con=openConnection()){
 			
-			String SELECT="select brokerID from trader where name=? ";
+			String SELECT="select brokerID from broker where name=? ";
 			PreparedStatement st=con.prepareStatement(SELECT);
 			st.setString(1,name);
 		    ResultSet rs=st.executeQuery();
@@ -138,6 +141,32 @@ public class BrokerDAOImpl implements BrokerDAO {
 				// TODO: handle exception
 				return false;
 			}
+	}
+
+	@Override
+	public List<Broker> findAllBrokers() {
+		// TODO Auto-generated method stub
+		List<Broker>brokers=new ArrayList<Broker>();
+		String SQL_FIND_ALL="select * from broker order by brokerID";
+		try (Connection con=openConnection()){
+			
+			Statement st=con.createStatement();
+			ResultSet resultSet=st.executeQuery(SQL_FIND_ALL);
+			while(resultSet.next()) {
+				
+				int brokerID=resultSet.getInt("brokerID");
+				String name=resultSet.getString("name");
+				
+				Broker broker=new Broker(brokerID,name);
+				brokers.add(broker);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return brokers;
 	}
 	}
 

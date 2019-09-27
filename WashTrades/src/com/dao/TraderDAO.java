@@ -1,6 +1,9 @@
 package com.dao;
 
 
+import java.util.List;
+
+
 import com.pojos.Trader;
 
 public interface TraderDAO {
@@ -10,5 +13,6 @@ public interface TraderDAO {
      Trader findByTraderName(String name);
      Trader deleteByTraderID(int traderID);
      boolean deleteAllTraders();
+     List<Trader> findAllTraders();
 
 }

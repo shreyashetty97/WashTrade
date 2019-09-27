@@ -23,7 +23,13 @@ import com.pojos.Trader;
 
 public class TradeDAOImpl implements TradeDAO {
 	
-	
+	static {
+		Equity e = new Equity();
+		
+		
+		
+		
+	}
 	
 	private Connection openConnection() {
 		// TODO Auto-generated method stub
@@ -309,10 +315,6 @@ public class TradeDAOImpl implements TradeDAO {
 		return false;
 	}
 
-
-		}
-
-
-
+}
 
 
