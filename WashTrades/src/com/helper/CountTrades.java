@@ -30,7 +30,7 @@ public class CountTrades {
 	}
 
 	
-	int countTrades() {
+	public int countTrades() {
 		
 		int count= 0;
 		System.out.println("waiting....");
