@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 import com.pojos.CallOption;
 
-public class CallOptionDAOImpl implements CallOptionDAO {
+public class CallOptionDAOImpl extends MasterDAO implements CallOptionDAO {
 	
 	public Connection openConnection() {
 		Connection connection=null;
@@ -37,7 +37,7 @@ public class CallOptionDAOImpl implements CallOptionDAO {
 			int tradeID=calloption.getTradeID();
 			Date expiryDate=calloption.getExpiryDate();
 			float Strike=calloption.getStrike();
-			String INSERT="insert into equity values(?,?,?)";
+			String INSERT="insert into calloption values(?,?,?,?)";
 			PreparedStatement ps=con.prepareStatement(INSERT);
 			ps.setInt(1, tradeID);
 			ps.setDate(2, expiryDate);

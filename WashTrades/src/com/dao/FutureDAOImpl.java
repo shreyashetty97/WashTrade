@@ -34,7 +34,7 @@ public class FutureDAOImpl implements FutureDAO {
 		try(Connection con=openConnection()){
 			int tradeID=future.getTradeID();
 			Date expiryDate=future.getExpiryDate();
-			String INSERT="insert into equity values(?,?)";
+			String INSERT="insert into future values(?,?)";
 			PreparedStatement ps=con.prepareStatement(INSERT);
 			ps.setInt(1, tradeID);
 			ps.setDate(2, expiryDate);
