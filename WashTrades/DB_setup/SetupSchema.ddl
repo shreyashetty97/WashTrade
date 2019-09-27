@@ -166,7 +166,7 @@ CREATE TABLE hr.trade (
     traderid       NUMBER(6) NOT NULL,
     brokerid       NUMBER(6) NOT NULL,
     securitytype   VARCHAR2(20 BYTE) NOT NULL,
-    price          NUMBER(6, 2) NOT NULL,
+    price          NUMBER(10, 6) NOT NULL,
     symbolid       NUMBER(6) NOT NULL
 )
 PCTFREE 10 PCTUSED 40 TABLESPACE users LOGGING
@@ -209,8 +209,8 @@ ALTER TABLE hr.trader
 
 CREATE TABLE hr.wash (
     washid         NUMBER(6) NOT NULL,
-    pricemargin    NUMBER(6, 2) NOT NULL,
-    volumemargin   NUMBER(6, 2) NOT NULL,
+    pricemargin    NUMBER(10, 6) NOT NULL,
+    volumemargin   NUMBER(10, 6) NOT NULL,
     brokerid       NUMBER(6) NOT NULL,
     traderid       NUMBER(6) NOT NULL,
     symbolid       NUMBER(6) NOT NULL
