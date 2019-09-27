@@ -10,6 +10,7 @@ public class Trader {
 	}
 
 	public Trader(int traderID,String name) {
+		this.traderID = traderID;
 		this.name = name;
 	}
 	

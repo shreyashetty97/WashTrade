@@ -19,6 +19,14 @@ public class PutOption extends Trade {
 		super(tradeID,  tradeType,  timeStamp,  volume,  trader,  broker,
 				 securityType,  price,  symbol);
 	}
+	
+	
+	public PutOption(Trade trade){
+		  
+		  super(trade.getTradeID(),trade.getTradeType(), trade.getTimeStamp(),trade.getVolume(), trade.getTrader(), trade.getBroker(), trade.getSecurityType(), trade.getPrice(),trade.getSymbol());
+		 
+		  
+	  }
 
 	public Date getExpiryDate() {
 		return expiryDate;

@@ -10,6 +10,7 @@ public class Symbol {
 	}
 
 	public Symbol(int symbolID,String name) {
+		this.symbolID = symbolID;
 		this.name = name;
 	}
 

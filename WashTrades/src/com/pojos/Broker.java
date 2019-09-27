@@ -10,6 +10,7 @@ public class Broker {
 	}
 
 	public Broker(int brokerID,String name) {
+		this.brokerID = brokerID;
 		this.name = name;
 	}
 	
