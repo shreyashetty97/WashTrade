@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+import com.helper.CountTrades;
 import com.pojos.Broker;
 import com.pojos.CallOption;
 import com.pojos.Equity;
@@ -23,13 +23,8 @@ import com.pojos.Trader;
 
 public class TradeDAOImpl implements TradeDAO {
 	
-	static {
-		Equity e = new Equity();
-		
-		
-		
-		
-	}
+	
+	static int recordCount=new CountTrades().countTrades();
 	
 	private Connection openConnection() {
 		// TODO Auto-generated method stub
@@ -72,25 +67,27 @@ public class TradeDAOImpl implements TradeDAO {
 		Trader trader= (new TraderDAOImpl()).findByTraderID(traderID);
 		Symbol symbol= (new SymbolDAOImpl()).getBySymbolID(symbolID);
 		
+		
+		trade= new Trade(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
 		switch(securityType.toLowerCase()) {
 		
 		case "equity":
-			trade= new Equity(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
+			trade= new Equity(trade);
 			break;
 		case "future":
-			trade= new Future(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
+			trade= new Future(trade);
 			break;
-		case "calloption":
-			trade= new CallOption(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
+		case "call":
+			trade= new CallOption(trade);
 			break;
-		case "putoption":
-			trade= new PutOption(tradeID,tradeType,timestamp,volume,trader,broker,securityType,price,symbol);
+		case "put":
+			trade= new PutOption(trade);
 			break;
 		default:
 			throw new Exception("Security type "+securityType+" doesnt exist in the switch case in TradeDAOImpl");
 			
 		}
-		
+		 
 		
 		return trade;
 		
@@ -165,7 +162,14 @@ public class TradeDAOImpl implements TradeDAO {
 					String INSERT_TRADE="INSERT INTO TRADEBOOK VALUES(?,?,?,?,?,?,?,?,?)";
 					PreparedStatement ps= con.prepareStatement(INSERT_TRADE);
 					
-					ps.setInt(1, trade.getTradeID());
+					if (trade.getTradeID()==this.recordCount+1) {
+					ps.setInt(1,++this.recordCount);}
+					
+					else {
+						ps.setInt(1,trade.getTradeID());
+						
+					}
+					
 					ps.setString(2,trade.getTradeType());
 					ps.setDate(3, trade.getTimeStamp());
 					ps.setInt(4,trade.getVolume());
@@ -175,24 +179,26 @@ public class TradeDAOImpl implements TradeDAO {
 					ps.setFloat(8,trade.getPrice());
 					ps.setInt(9,trade.getSymbol().getsymbolID());			
 					rows= ps.executeUpdate();
+					
+					
 		 }catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		 
+		         
 		 switch(trade.getSecurityType().toLowerCase()) {
 			
 			case "equity":
-				(new EquityDAOImpl()).addEquityInfo((Equity)trade);
+				(new EquityDAOImpl()).addEquityInfo(new Equity(trade));
 				break;
 			case "future":
-				(new FutureDAOImpl()).addFutureInfo((Future)trade);
+				(new FutureDAOImpl()).addFutureInfo(new Future(trade));
 				break;
 			case "calloption":
-				(new CallOptionDAOImpl()).addCallOptionInfo((CallOption)trade);
+				(new CallOptionDAOImpl()).addCallOptionInfo(new CallOption(trade));
 				break;
 			case "putoption":
-				(new PutOptionDAOImpl()).addPutOptionInfo((PutOption)trade);
+				(new PutOptionDAOImpl()).addPutOptionInfo(new PutOption(trade));
 			default:
 				System.out.println("Security type "+trade.getSecurityType()+" doesnt exist in the switch case in TradeDAOImpl");
 				
@@ -221,10 +227,10 @@ public class TradeDAOImpl implements TradeDAO {
 		case "future":
 			(new FutureDAOImpl()).deleteFutureInfo(tradeID);
 			break;
-		case "calloption":
+		case "call":
 			(new CallOptionDAOImpl()).deleteCallOptionInfo(tradeID);
 			break;
-		case "putoption":
+		case "put":
 			(new PutOptionDAOImpl()).deletePutOptionInfo(tradeID);
 		default:
 			System.out.println("Security type "+trade.getSecurityType()+" doesnt exist in the switch case in TradeDAOImpl");
@@ -270,10 +276,6 @@ public class TradeDAOImpl implements TradeDAO {
 			}
 			
 			return trade;
-			
-		
-		
-		
 	}
 
 

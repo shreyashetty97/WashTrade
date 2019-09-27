@@ -1,4 +1,5 @@
 package com.dao;
+import com.helper.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,29 +16,36 @@ import com.pojos.Trader;
 
 public class BrokerDAOImpl implements BrokerDAO {
 	
-	 public Connection openConnection() {
-			Connection connection=null;
-			try {
-				Class.forName("oracle.jdbc.driver.OracleDriver"); //loading class
-				connection=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "hr");
-				System.out.println(connection);
-				return connection;
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return connection;
+	private Connection openConnection() {
+		// TODO Auto-generated method stub
+		 Connection connection = null;
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			 connection=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "hr", "hr");
+			System.out.println("connection opened");
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		return connection;
+
+	}
+
+	
+	 
+	
 
 	@Override
 	public int addBroker(Broker broker) {
 		// TODO Auto-generated method stub
 
 		int rows=0;
-		try(Connection con=openConnection()){
+		try(Connection con= openConnection()){
 			
 			String INSERT_BROKER="insert into broker values(?,?)";
 			PreparedStatement ps=con.prepareStatement(INSERT_BROKER);
@@ -61,7 +69,7 @@ public class BrokerDAOImpl implements BrokerDAO {
 	public Broker findBrokerByID(int brokerID) {
 		// TODO Auto-generated method stub
 		Broker broker=null;
-		try(Connection con=openConnection()){
+		try(Connection con= openConnection()){
 			
 			String SELECT="select name from broker where brokerID=? ";
 			PreparedStatement st=con.prepareStatement(SELECT);
@@ -87,7 +95,7 @@ public class BrokerDAOImpl implements BrokerDAO {
         Broker broker=findBrokerByID(brokerID);
 		
 		if (broker!=null){
-		try(Connection con=openConnection()){
+		try(Connection con= openConnection()){
 			
 		String DELETE="delete from broker where brokerID=?";
 		PreparedStatement ps= con.prepareStatement(DELETE);
@@ -106,7 +114,7 @@ public class BrokerDAOImpl implements BrokerDAO {
 	public Broker findBrokerByName(String name) {
 		// TODO Auto-generated method stub
 		Broker broker=null;
-		try(Connection con=openConnection()){
+		try(Connection con= openConnection()){
 			
 			String SELECT="select brokerID from broker where name=? ";
 			PreparedStatement st=con.prepareStatement(SELECT);
@@ -129,9 +137,10 @@ public class BrokerDAOImpl implements BrokerDAO {
 	@Override
 	public boolean deleteAllBrokers() {
 		// TODO Auto-generated method stub
-		try(Connection connection=openConnection()) {
+		try (Connection con= openConnection()){
+			
 			String DELETE_ALL="delete  from broker";
-			Statement st=connection.createStatement();
+			Statement st=con.createStatement();
 			st.executeUpdate(DELETE_ALL);
 			
 			
@@ -148,26 +157,40 @@ public class BrokerDAOImpl implements BrokerDAO {
 		// TODO Auto-generated method stub
 		List<Broker>brokers=new ArrayList<Broker>();
 		String SQL_FIND_ALL="select * from broker order by brokerID";
-		try (Connection con=openConnection()){
+		try(Connection con= openConnection()) {
 			
 			Statement st=con.createStatement();
 			ResultSet resultSet=st.executeQuery(SQL_FIND_ALL);
 			while(resultSet.next()) {
-				
+				System.out.println("inside while");
 				int brokerID=resultSet.getInt("brokerID");
 				String name=resultSet.getString("name");
 				
 				Broker broker=new Broker(brokerID,name);
 				brokers.add(broker);
 				
-			}
+				
+			}System.out.println("outside while");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-				
+		System.out.println(brokers);		
 		return brokers;
 	}
+	
+//	public static void main(String[] args) {
+//		
+//	BrokerDAOImpl dao=new BrokerDAOImpl();
+//	System.out.println(dao.findBrokerByName("one"));
+//	dao.closeConnection();
+//	
+//	dao=new BrokerDAOImpl();
+//	System.out.println(dao.findAllBrokers());
+//	dao.closeConnection();
+//		
+//	}
+//	
 	}
 
 
