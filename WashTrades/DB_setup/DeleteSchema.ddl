@@ -1,0 +1,10 @@
+drop table equity;
+drop table future;
+drop table calloption ;
+drop table putoption ;
+drop table washmap ;
+drop table wash ;
+drop table trade ;
+drop table trader ;
+drop table broker ;
+drop table symbol;
