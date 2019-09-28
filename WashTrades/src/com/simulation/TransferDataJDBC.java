@@ -24,7 +24,7 @@ public class TransferDataJDBC {
 	     
 	     String COPY_ALL_TRADE="insert into trade (select * from tradebook)";
          
-	     PreparedStatement ps= connection.prepareStatement(SET_PK_CONSTRAINT);
+	     PreparedStatement ps= connection.prepareStatement(SET_UNIQUE_INDEX + SET_PK_CONSTRAINT + COPY_ALL_TRADE );
          ps.execute();
          ps= connection.prepareStatement(COPY_ALL_TRADE);
          ps.execute();
