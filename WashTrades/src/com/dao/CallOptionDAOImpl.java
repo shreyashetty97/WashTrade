@@ -37,12 +37,11 @@ public class CallOptionDAOImpl extends MasterDAO implements CallOptionDAO {
 			int tradeID=calloption.getTradeID();
 			Date expiryDate=calloption.getExpiryDate();
 			float Strike=calloption.getStrike();
-			String INSERT="insert into calloption values(?,?,?,?)";
+			String INSERT="insert into calloption values(?,?,?)";
 			PreparedStatement ps=con.prepareStatement(INSERT);
 			ps.setInt(1, tradeID);
 			ps.setDate(2, expiryDate);
 			ps.setFloat(3, Strike);
-			ps.setFloat(4, Strike);
 			
 			
 			rows=ps.executeUpdate();

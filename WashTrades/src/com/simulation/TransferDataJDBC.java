@@ -4,97 +4,66 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.dao.TradeDAO;
+import com.dao.TradeDAOImpl;
+import com.dao.WashDAOImpl;
+import com.dao.WashMapDAOImpl;
 import com.helper.OpenConnection;
 
 public class TransferDataJDBC {
-  OpenConnection con=new OpenConnection();
+
  
-  
-	public int deleteFromTrade() throws SQLException {	  
-		  
-		int rows=0;
-          Connection connection= con.newConnection();
-          String DELETE_ALL_TRADE="delete from trade";
-          PreparedStatement ps= connection.prepareStatement(DELETE_ALL_TRADE);
-         rows=ps.executeUpdate();
-         return rows;
-	}
-  
-	public int deleteFromWash() throws SQLException {	  
-		  
-		int rows=0;
-          Connection connection= con.newConnection();
-          String DELETE_ALL_TRADE="delete from wash";
-          PreparedStatement ps= connection.prepareStatement(DELETE_ALL_TRADE);
-         rows=ps.executeUpdate();
-         return rows;
-	}
-	
-	public int deleteFromWashMap() throws SQLException {	  
-		  
-		int rows=0;
-          Connection connection= con.newConnection();
-          String DELETE_ALL_TRADE="delete from washmap";
-          PreparedStatement ps= connection.prepareStatement(DELETE_ALL_TRADE);
-         rows=ps.executeUpdate();
-         return rows;
-	}
-	public int deleteFromEquity() throws SQLException {	  
-		  
-		int rows=0;
-          Connection connection= con.newConnection();
-          String DELETE_ALL_TRADE="delete from equity";
-          PreparedStatement ps= connection.prepareStatement(DELETE_ALL_TRADE);
-         rows=ps.executeUpdate();
-         return rows;
-	}
-		  
-	public int deleteFromFuture() throws SQLException {	  
-		  
-		int rows=0;
-          Connection connection= con.newConnection();
-          String DELETE_ALL_TRADE="delete from future";
-          PreparedStatement ps= connection.prepareStatement(DELETE_ALL_TRADE);
-         rows=ps.executeUpdate();
-         return rows;
-	}
-	public int deleteFromCallOption() throws SQLException {	  
-		  
-		int rows=0;
-          Connection connection= con.newConnection();
-          String DELETE_ALL_TRADE="delete from calloption";
-          PreparedStatement ps= connection.prepareStatement(DELETE_ALL_TRADE);
-         rows=ps.executeUpdate();
-         return rows;
-	}
-	public int deleteFromPutOption() throws SQLException {	  
-		  
-		int rows=0;
-          Connection connection= con.newConnection();
-          String DELETE_ALL_TRADE="delete from putoption";
-          PreparedStatement ps= connection.prepareStatement(DELETE_ALL_TRADE);
-         rows=ps.executeUpdate();
-         return rows;
+	private boolean copyFromTrade() {	  
+		  System.out.println("inside copyFromTrades");
+		 boolean flag=false;
+		 try(Connection connection=new OpenConnection().newConnection()) {
+	     
+		 String SET_UNIQUE_INDEX="CREATE UNIQUE INDEX hr.tradebook_pk ON hr.tradebook (tradeid ASC )";	 
+	     
+		 String SET_PK_CONSTRAINT="ALTER TABLE hr.tradebook ADD CONSTRAINT tradebook_pk PRIMARY KEY ( tradeid ) USING INDEX hr.tradebook_pk";
+	     
+	     String COPY_ALL_TRADE="insert into trade (select * from tradebook)";
+         
+	     PreparedStatement ps= connection.prepareStatement(SET_PK_CONSTRAINT);
+         ps.execute();
+         ps= connection.prepareStatement(COPY_ALL_TRADE);
+         ps.execute();
+         flag=true;
+		 }
+		 catch(Exception e) {
+			 e.printStackTrace();
+		 }
+         return flag;
 	}
 	
-	public boolean copyFromTrade() throws SQLException {	  
-		  
-		boolean r=false;
-          Connection connection= con.newConnection();
-          String COPY_ALL_TRADE="insert into trade select * from tradebook";
-          PreparedStatement ps= connection.prepareStatement(COPY_ALL_TRADE);
-           r=ps.execute();
-         return r;
-	}
+	public boolean simulate() {
+		boolean flag =false;
+		try {
+		new TradeDAOImpl().deleteAll();
+		new WashDAOImpl().deleteAllWash();
+		new WashMapDAOImpl().deleteAllWashMap();
+		new JavaRunBatFile().dataGeneration1();
+		copyFromTrade();
+		flag =true;
+		System.out.println("data simulation successful");
+		}
 		
-//	public static void main(String[] args) {
-//		 boolean 
-//		
-		
+		catch(Exception e) {
+			e.printStackTrace();
+			flag=false;
+		}
+			return flag;
+		}
 	
-
-
+	public static void main(String args[]) {
+		
+		//new TradeDAOImpl().deleteAll();
+		new TransferDataJDBC().copyFromTrade();
+		//new JavaRunBatFile().dataGeneration();
+		
 		
 		
 	}
+	
+}
 

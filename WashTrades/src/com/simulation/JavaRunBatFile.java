@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 
 public class JavaRunBatFile {
 
-	public static void main(String[] args) {
+	public void dataGeneration() {
 		// TODO Auto-generated method stub
 		
 		/*Path currentRelativePath = Paths.get("C:\\Users\\Nk\\git\\WashTrade\\WashTrades\\src\\JavaRunBatFile.java");
@@ -23,7 +23,7 @@ public class JavaRunBatFile {
 	    String relative = new File(base).toURI().relativize(new File(path).toURI()).getPath();
 	  System.out.println("relative: "+ relative);*/
 		
-		ProcessBuilder processBuilder = new ProcessBuilder("C:\\Users\\Nk\\Desktop\\Master\\Master_run.bat");
+		ProcessBuilder processBuilder = new ProcessBuilder("C:\\Users\\Nk\\Desktop\\Simulator\\Master_run.bat");
 	       
 		//Process process = Runtime.getRuntime().exec(
         //            "cmd /c hello.bat", null, new File("C:\\Users\\mkyong\\"));
@@ -56,9 +56,19 @@ public class JavaRunBatFile {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+   
 	
      }
+	
+	public void dataGeneration1() {
+		try {
+			Process process = Runtime.getRuntime().exec(
+					"cmd /c Master_run.bat", null, new File("C:\\Users\\Nk\\Desktop\\Simulator\\")); 
+			process.waitFor();
+        } catch (Exception ex) {
+        	ex.printStackTrace();
+        }
+	}
 
 }
 

@@ -100,15 +100,15 @@ public class WashMapDAOImpl implements WashMapDAO {
 	public boolean deleteAllWashMap() {
 		// TODO Auto-generated method stub
 		String SQL_QUERY_DELETE_WASHMAP = "delete from washmap";
-		try {
-			Connection con = openConnection();{
+		try(Connection con = openConnection()) {
+			
 				
 			    Statement s = con.createStatement();
 				s.executeUpdate(SQL_QUERY_DELETE_WASHMAP);
 				return true;
 		   
 			}
-					}catch (SQLException e) {
+					catch (SQLException e) {
 					// TODO: handle exception
 					e.printStackTrace();
 				}

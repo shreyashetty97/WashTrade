@@ -59,20 +59,19 @@ public class TraderDAOImpl implements TraderDAO {
 	@Override
 	public Trader findByTraderID(int traderID) {
 		// TODO Auto-generated method stub
-		Trader trader;
+		Trader trader=null;
 		try(Connection con=openConnection()){
 			
 			String SELECT="select name from trader where traderID=? ";
 			PreparedStatement st=con.prepareStatement(SELECT);
 			st.setInt(1,traderID);
 		    ResultSet rs=st.executeQuery();
-		    rs.next();
+		    while(rs.next()) {
 		    trader=new Trader(traderID, rs.getString("name"));
-		    return trader;
+		    }
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			trader = null;
 			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
@@ -112,9 +111,9 @@ public class TraderDAOImpl implements TraderDAO {
 			PreparedStatement st=con.prepareStatement(SELECT);
 			st.setString(1,name);
 		    ResultSet rs=st.executeQuery();
-		    rs.next();
+		    while(rs.next()) {
 		    trader=new Trader(rs.getInt("traderID"), name);
-		    return trader;
+		    }
 			
 			
 		} catch (SQLException e) {

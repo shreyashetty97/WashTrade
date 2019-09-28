@@ -65,9 +65,9 @@ public class SymbolDAOImpl implements SymbolDAO {
 			PreparedStatement st=con.prepareStatement(SELECT);
 			st.setInt(1,symbolID);
 		    ResultSet rs=st.executeQuery();
-		    rs.next();
+		    while(rs.next()) {
 		    symbol=new Symbol(symbolID, rs.getString("name"));
-		    return symbol;
+		    }
 			
 			
 		} catch (SQLException e) {
@@ -114,9 +114,9 @@ public class SymbolDAOImpl implements SymbolDAO {
 			PreparedStatement st=con.prepareStatement(SELECT);
 			st.setString(1,name);
 		    ResultSet rs=st.executeQuery();
-		    rs.next();
+		    while(rs.next()) {
 		    symbol=new Symbol(rs.getInt("symbolID"), name);
-		    return symbol;
+		    }
 			
 			
 		} catch (SQLException e) {

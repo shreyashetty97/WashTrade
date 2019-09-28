@@ -98,15 +98,19 @@ public class TradeDAOImpl implements TradeDAO {
 	{
 		List<Trade> trades=new ArrayList<Trade>();
 		Trade trade=null;
+		System.out.println(tradeIDs);
          try (Connection con=openConnection()){
+        	 String FIND_TRADEID="select * from trade where tradeid = ?";
+     		 PreparedStatement ps=con.prepareStatement(FIND_TRADEID);
         	 for(int tradeID:tradeIDs) 
         	 {
-			String FIND_TRADEID="select * from tradebook where tradeid = ?";
-			PreparedStatement ps=con.prepareStatement(FIND_TRADEID);
-			ps.setInt(1, tradeID);
-			ResultSet resultSet=ps.executeQuery();
-			resultSet.next();
-		    trade=ResultSetToTrade(resultSet);
+        		 System.out.println("entered for loop");
+			
+			      ps.setInt(1, tradeID);
+			      ResultSet resultSet=ps.executeQuery();
+			if (resultSet.next())
+		      { System.out.println("entered if block");
+				trade=ResultSetToTrade(resultSet);}
 		    trades.add(trade);
 			}
 	}catch (Exception e) {
@@ -301,8 +305,8 @@ public class TradeDAOImpl implements TradeDAO {
 	public boolean deleteAll() {
 		// TODO Auto-generated method stub
 		String SQL_QUERY_DELETE_TRADE = "delete from trade";
-		try {
-			Connection con = openConnection();{
+		try(Connection con = openConnection()){
+			{
 				
 			    Statement s = con.createStatement();
 				s.executeUpdate(SQL_QUERY_DELETE_TRADE);

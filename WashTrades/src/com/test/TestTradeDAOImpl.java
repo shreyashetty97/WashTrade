@@ -25,7 +25,7 @@ class TestTradeDAOImpl {
 	@Test
 	void testFindByTradeID() {
 		TradeDAOImpl TradeDAOImpl = new TradeDAOImpl();
-		List<Trade> t=TradeDAOImpl.findByTradeIDs(Arrays.asList(1,2));
+		List<Trade> t=TradeDAOImpl.findByTradeIDs(Arrays.asList(1,2,1200,700));
 		System.out.println(t);
 		assertEquals(34,t.get(0).getVolume());
 	}

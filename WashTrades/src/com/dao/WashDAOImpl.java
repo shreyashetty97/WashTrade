@@ -130,15 +130,14 @@ public class WashDAOImpl implements WashDAO {
 	public boolean deleteAllWash() {
 		// TODO Auto-generated method stub
 		String SQL_QUERY_DELETE_WASH = "delete from wash";
-		try {
-			Connection con = openConnection();{
+		try (Connection con = openConnection()){
 				
 			    Statement s = con.createStatement();
 				s.executeUpdate(SQL_QUERY_DELETE_WASH);
 				return true;
 		   
 			}
-					}catch (SQLException e) {
+					catch (SQLException e) {
 					// TODO: handle exception
 					e.printStackTrace();
 				}

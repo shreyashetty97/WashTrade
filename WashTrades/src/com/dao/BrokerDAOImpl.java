@@ -75,10 +75,10 @@ public class BrokerDAOImpl implements BrokerDAO {
 			PreparedStatement st=con.prepareStatement(SELECT);
 			st.setInt(1,brokerID);
 		    ResultSet rs=st.executeQuery();
-		    rs.next();
+		    
+		    while(rs.next()) {
 		    broker=new Broker(brokerID, rs.getString("name"));
-		    return broker;
-			
+		    }
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -120,9 +120,9 @@ public class BrokerDAOImpl implements BrokerDAO {
 			PreparedStatement st=con.prepareStatement(SELECT);
 			st.setString(1,name);
 		    ResultSet rs=st.executeQuery();
-		    rs.next();
+		    while(rs.next()) {
 		    broker=new Broker(rs.getInt("brokerID"), name);
-		    return broker;
+		    }
 			
 			
 		} catch (SQLException e) {

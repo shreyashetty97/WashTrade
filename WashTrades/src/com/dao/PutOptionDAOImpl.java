@@ -38,12 +38,11 @@ public class PutOptionDAOImpl implements PutOptionDAO {
 			int tradeID=putoption.getTradeID();
 			Date expiryDate=putoption.getExpiryDate();
 			float Strike=putoption.getStrike();
-			String INSERT="insert into putoption values(?,?,?,?)";
+			String INSERT="insert into putoption values(?,?,?)";
 			PreparedStatement ps=con.prepareStatement(INSERT);
 			ps.setInt(1, tradeID);
 			ps.setDate(2, expiryDate);
 			ps.setFloat(3, Strike);
-			ps.setFloat(4, Strike);
 			
 			
 			rows=ps.executeUpdate();
